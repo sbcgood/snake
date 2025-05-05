@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5贪吃蛇游戏</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .game-container {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        canvas {
+            border: 4px solid #0f3460;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            background-color: #0f3460;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #e94560;
+        }
+
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            width: 400px;
+            margin-bottom: 10px;
+        }
+
+        .score, .high-score {
+            font-size: 1.2rem;
+            background-color: #16213e;
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+            background-color: #16213e;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 400px;
+        }
+
+        .controls p {
+            margin: 5px 0;
+        }
+
+        .game-over, .game-start {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(15, 52, 96, 0.9);
+            padding: 20px 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        button {
+            background-color: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff6b81;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 500px) {
+            .score-container, .controls {
+                width: 90%;
+            }
+            canvas {
+                width: 90%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-header">
+        <h1>贪吃蛇游戏</h1>
+        <div class="score-container">
+            <div class="score">分数: <span id="score">0</span></div>
+            <div class="high-score">最高分: <span id="highScore">0</span></div>
+        </div>
+    </div>
+
+    <div class="game-container">
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        
+        <div class="game-start" id="gameStart">
+            <h2>欢迎来到贪吃蛇游戏!</h2>
+            <p>使用方向键控制蛇的移动</p>
+            <button id="startButton">开始游戏</button>
+        </div>
+        
+        <div class="game-over" id="gameOver" style="display: none;">
+            <h2>游戏结束!</h2>
+            <p>你的分数: <span id="finalScore">0</span></p>
+            <button id="restartButton">再玩一次</button>
+        </div>
+    </div>
+
+    <div class="controls">
+        <p>使用键盘方向键 ↑ ↓ ← → 控制蛇的移动</p>
+        <p><strong>长按方向键</strong>可以让蛇进入冲刺模式，移动更快！</p>
+        <p>在移动设备上，点击屏幕上方、下方、左侧或右侧来改变方向</p>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
