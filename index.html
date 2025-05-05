@@ -135,6 +135,15 @@
             <p>你的分数: <span id="finalScore">0</span></p>
             <button id="restartButton">再玩一次</button>
         </div>
+
+        <div id="powerupSelection" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(15, 52, 96, 0.9); padding: 20px; border-radius: 10px; text-align: center; z-index: 10;">
+            <h3>选择一个加成效果</h3>
+            <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                <button onclick="selectPowerup(0)" style="flex: 1; margin: 0 5px;">速度加成</button>
+                <button onclick="selectPowerup(1)" style="flex: 1; margin: 0 5px;">分数加成</button>
+                <button onclick="selectPowerup(2)" style="flex: 1; margin: 0 5px;">长度加成</button>
+            </div>
+        </div>
     </div>
 
     <div class="controls">

@@ -89,9 +89,9 @@ function startGame() {
         'pear',
         'package',
         'package',
+        'package',
         'gold',
         'gold',
-        'chest'
     ]
 
     console.log('fruitok');
@@ -144,6 +144,9 @@ function startGame() {
 
 // 游戏主循环
 function gameLoop() {
+    // 如果游戏暂停，不执行游戏逻辑
+    if (isPaused) return;
+    
     console.log("currentSpeed",currentSpeed)
     // 更新方向
     direction = nextDirection;
@@ -281,37 +284,6 @@ function generateFood(package) {
 let isPaused = false;
 
 // 在window.onload中添加获取选择界面元素
-window.onload = function() {
-    // 获取Canvas和上下文
-    canvas = document.getElementById('gameCanvas');
-    ctx = canvas.getContext('2d');
-    
-    // 获取DOM元素
-    gameOverElement = document.getElementById('gameOver');
-    gameStartElement = document.getElementById('gameStart');
-    scoreElement = document.getElementById('score');
-    highScoreElement = document.getElementById('highScore');
-    finalScoreElement = document.getElementById('finalScore');
-    powerupSelectionElement = document.getElementById('powerupSelection'); // 添加这一行
-    
-    // 设置按钮事件监听器
-    document.getElementById('startButton').addEventListener('click', startGame);
-    document.getElementById('restartButton').addEventListener('click', startGame);
-    
-    // 设置键盘事件监听器
-    document.addEventListener('keydown', handleKeyPress);
-    document.addEventListener('keyup', handleKeyUp);
-    
-    // 设置触摸事件监听器（用于移动设备）
-    setupTouchControls();
-    
-    // 从本地存储加载最高分
-    highScore = localStorage.getItem('snakeHighScore') || 0;
-    highScoreElement.textContent = highScore;
-    
-    // 显示开始界面
-    gameStartElement.style.display = 'block';
-};
 
 
 
@@ -491,9 +463,6 @@ function resumeGame() {
 }
 
 // 显示加成选择界面
-function showPowerupSelection() {
-    powerupSelectionElement.style.display = 'block';
-}
 
 // 隐藏加成选择界面
 function hidePowerupSelection() {
@@ -537,48 +506,7 @@ function selectPowerup(index) {
 }
 
 // 修改gameLoop函数，添加暂停检查
-function gameLoop() {
-    // 如果游戏暂停，不执行游戏逻辑
-    if (isPaused) return;
-    
-    // 更新方向
-    direction = nextDirection;
-    
-    // 移动蛇
-    moveSnake();
-    
-    // 检查碰撞
-    if (checkCollision()) {
-        gameOver();
-        return;
-    }
-    
-    // 检查是否吃到食物
-    for (let i = 0; i < food.length; i++) {
-        if (snake[0].x === food[i].x && snake[0].y === food[i].y) {
-            eatFood(food[i]);
-            // Remove the eaten food from the array
-            food.splice(i, 1);
-            break;
-        }
-    }
-    
-    // 每2次循环生成一个食物，无论场上是否已有食物
-    foodGenerationCounter++;
-    if (foodGenerationCounter >= FOOD_CD) {
-        generateFood(false);
-        foodGenerationCounter = 0;
-        console.log("生成新食物，当前食物数量:", food.length);
-    }
-    
-    if(!growth){
-        snake.pop();
-    }else{
-        growth--;
-    }
-    // 绘制游戏
-    draw();
-}
+
 
 // 移动蛇
 function moveSnake() {
@@ -1088,8 +1016,8 @@ function drawChest(obj) {
 
 // 处理键盘按键
 function handleKeyPress(event) {
-    // 如果游戏未运行，忽略按键
-    if (!gameRunning) return;
+    // 如果游戏未运行或已暂停，忽略按键
+    if (!gameRunning || isPaused) return;
     
     // 根据按键设置下一个方向
     let directionChanged = false;
